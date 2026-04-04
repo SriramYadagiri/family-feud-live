@@ -39,7 +39,6 @@ export default function Index() {
 
   return (
     <div className="min-h-screen flex flex-col">
-      {/* Dual-screen tip */}
       <div className="bg-card/50 border-b border-primary/20 px-4 py-2 text-center">
         <p className="font-display text-xs text-muted-foreground uppercase tracking-wider">
           💡 For live games: open{" "}
@@ -55,6 +54,8 @@ export default function Index() {
           teamScores={game.teamScores}
           currentQuestion={game.currentQ}
           totalQuestions={game.allQuestions.length}
+          activeTeam={game.activeTeam}
+          stealMode={game.stealMode}
         />
       </div>
       <HostControls
@@ -67,8 +68,11 @@ export default function Index() {
         onResetStrikes={game.resetStrikes}
         onNextQuestion={game.nextQuestion}
         onAddScore={game.addScore}
+        onSwitchTeam={game.switchTeam}
         roundPoints={game.roundPoints}
         isLastQuestion={game.currentQ >= game.allQuestions.length - 1}
+        activeTeam={game.activeTeam}
+        stealMode={game.stealMode}
       />
     </div>
   );

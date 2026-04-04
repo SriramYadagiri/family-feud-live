@@ -11,8 +11,11 @@ interface HostControlsProps {
   onResetStrikes: () => void;
   onNextQuestion: () => void;
   onAddScore: (team: 0 | 1, points: number) => void;
+  onSwitchTeam: () => void;
   roundPoints: number;
   isLastQuestion: boolean;
+  activeTeam: 0 | 1;
+  stealMode: boolean;
 }
 
 export default function HostControls({
@@ -25,14 +28,33 @@ export default function HostControls({
   onResetStrikes,
   onNextQuestion,
   onAddScore,
+  onSwitchTeam,
   roundPoints,
   isLastQuestion,
+  activeTeam,
+  stealMode,
 }: HostControlsProps) {
+  const activeTeamName = activeTeam === 0 ? "Team 1" : "Team 2";
+
   return (
     <div className="bg-card border-t-2 border-primary/30 p-4 space-y-4">
       <h2 className="font-display text-lg text-primary uppercase tracking-widest text-center">
         Host Controls
       </h2>
+
+      {/* Active team indicator */}
+      <div className="flex items-center justify-between bg-primary/10 border border-primary/30 rounded-lg p-3">
+        <div className="font-display text-sm uppercase tracking-wider">
+          <span className="text-muted-foreground">Playing: </span>
+          <span className="text-primary font-bold">{activeTeamName}</span>
+          {stealMode && (
+            <span className="text-destructive ml-2 animate-pulse">(STEAL)</span>
+          )}
+        </div>
+        <Button onClick={onSwitchTeam} variant="outline" size="sm" className="font-display text-xs uppercase">
+          Switch Team
+        </Button>
+      </div>
 
       {/* Reveal answers */}
       <div className="space-y-2">
@@ -84,13 +106,17 @@ export default function HostControls({
         <div className="grid grid-cols-2 gap-2">
           <Button
             onClick={() => onAddScore(0, roundPoints)}
-            className="font-display bg-success/80 hover:bg-success uppercase"
+            className={`font-display uppercase ${
+              activeTeam === 0 ? "bg-success hover:bg-success/90" : "bg-success/50 hover:bg-success/70"
+            }`}
           >
             → Team 1
           </Button>
           <Button
             onClick={() => onAddScore(1, roundPoints)}
-            className="font-display bg-success/80 hover:bg-success uppercase"
+            className={`font-display uppercase ${
+              activeTeam === 1 ? "bg-success hover:bg-success/90" : "bg-success/50 hover:bg-success/70"
+            }`}
           >
             → Team 2
           </Button>

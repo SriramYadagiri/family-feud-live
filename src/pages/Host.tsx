@@ -56,8 +56,11 @@ export default function Host() {
           onResetStrikes={game.resetStrikes}
           onNextQuestion={game.nextQuestion}
           onAddScore={game.addScore}
+          onSwitchTeam={game.switchTeam}
           roundPoints={game.roundPoints}
           isLastQuestion={game.currentQ >= game.allQuestions.length - 1}
+          activeTeam={game.activeTeam}
+          stealMode={game.stealMode}
         />
       </div>
     </div>
