@@ -70,12 +70,8 @@ export default function Index() {
   }, []);
 
   if (gameOver) {
-    const winner =
-      teamScores[0] > teamScores[1]
-        ? "Team 1"
-        : teamScores[1] > teamScores[0]
-        ? "Team 2"
-        : "It's a Tie!";
+    const isTie = teamScores[0] === teamScores[1];
+    const winner = teamScores[0] > teamScores[1] ? "Team 1" : "Team 2";
     return (
       <div className="min-h-screen flex flex-col items-center justify-center gap-6 p-6">
         <h1 className="font-display text-5xl md:text-7xl font-bold text-primary uppercase tracking-wider">
@@ -91,7 +87,9 @@ export default function Index() {
             <div className="font-display text-5xl font-bold text-primary">{teamScores[1]}</div>
           </div>
         </div>
-        <div className="font-display text-3xl text-accent">🏆 {winner} Wins!</div>
+        <div className="font-display text-3xl text-accent">
+          {isTie ? "🤝 It's a Tie!" : `🏆 ${winner} Wins!`}
+        </div>
         <button
           onClick={() => {
             setCurrentQ(0);
