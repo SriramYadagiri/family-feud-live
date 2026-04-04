@@ -38,6 +38,8 @@ export default function Board() {
         teamScores={game.teamScores}
         currentQuestion={game.currentQ}
         totalQuestions={game.allQuestions.length}
+        activeTeam={game.activeTeam}
+        stealMode={game.stealMode}
       />
     </div>
   );

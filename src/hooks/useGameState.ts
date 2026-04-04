@@ -10,6 +10,8 @@ export interface GameState {
   strikes: number;
   teamScores: [number, number];
   gameOver: boolean;
+  activeTeam: 0 | 1;
+  stealMode: boolean;
 }
 
 function initialState(): GameState {
@@ -19,6 +21,8 @@ function initialState(): GameState {
     strikes: 0,
     teamScores: [0, 0],
     gameOver: false,
+    activeTeam: 0,
+    stealMode: false,
   };
 }
 
@@ -29,7 +33,6 @@ export function useGameState(role: "host" | "board" | "standalone") {
   const channelRef = useRef<BroadcastChannel | null>(null);
   const { playCorrect, playStrike } = useSoundEffects();
 
-  // Set up broadcast channel for host<->board sync
   useEffect(() => {
     if (role === "standalone") return;
     const ch = new BroadcastChannel(CHANNEL_NAME);
@@ -44,7 +47,6 @@ export function useGameState(role: "host" | "board" | "standalone") {
       }
     };
 
-    // Board requests initial state from host
     if (role === "board") {
       ch.postMessage({ type: "request-state" });
     }
@@ -59,7 +61,6 @@ export function useGameState(role: "host" | "board" | "standalone") {
     []
   );
 
-  // Host responds to board state requests
   useEffect(() => {
     if (role !== "host") return;
     const ch = channelRef.current;
@@ -104,7 +105,22 @@ export function useGameState(role: "host" | "board" | "standalone") {
   const addStrike = useCallback(() => {
     setState((prev) => {
       if (prev.strikes >= 3) return prev;
-      const next = { ...prev, strikes: prev.strikes + 1 };
+      const newStrikes = prev.strikes + 1;
+
+      if (newStrikes >= 3 && !prev.stealMode) {
+        // 3 strikes: switch to other team for steal attempt
+        const next: GameState = {
+          ...prev,
+          strikes: newStrikes,
+          activeTeam: prev.activeTeam === 0 ? 1 : 0,
+          stealMode: true,
+        };
+        if (role !== "board") playStrike();
+        broadcast(next, "strike");
+        return next;
+      }
+
+      const next = { ...prev, strikes: newStrikes };
       if (role !== "board") playStrike();
       broadcast(next, "strike");
       return next;
@@ -114,6 +130,18 @@ export function useGameState(role: "host" | "board" | "standalone") {
   const resetStrikes = useCallback(() => {
     setState((prev) => {
       const next = { ...prev, strikes: 0 };
+      broadcast(next);
+      return next;
+    });
+  }, [broadcast]);
+
+  const switchTeam = useCallback(() => {
+    setState((prev) => {
+      const next: GameState = {
+        ...prev,
+        activeTeam: prev.activeTeam === 0 ? 1 : 0,
+        strikes: 0,
+      };
       broadcast(next);
       return next;
     });
@@ -132,6 +160,7 @@ export function useGameState(role: "host" | "board" | "standalone") {
         currentQ: nextQ,
         revealedAnswers: new Array(allQuestions[nextQ].answers.length).fill(false),
         strikes: 0,
+        stealMode: false,
       };
       broadcast(next);
       return next;
@@ -166,6 +195,7 @@ export function useGameState(role: "host" | "board" | "standalone") {
     revealAll,
     addStrike,
     resetStrikes,
+    switchTeam,
     nextQuestion,
     addScore,
     resetGame,

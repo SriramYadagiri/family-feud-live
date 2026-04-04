@@ -7,6 +7,8 @@ interface GameBoardProps {
   teamScores: [number, number];
   currentQuestion: number;
   totalQuestions: number;
+  activeTeam: 0 | 1;
+  stealMode?: boolean;
 }
 
 export default function GameBoard({
@@ -16,16 +18,25 @@ export default function GameBoard({
   teamScores,
   currentQuestion,
   totalQuestions,
+  activeTeam,
+  stealMode,
 }: GameBoardProps) {
   return (
     <div className="flex flex-col items-center gap-6 p-6 min-h-screen">
       {/* Scoreboard */}
       <div className="flex w-full max-w-4xl justify-between items-center">
-        <TeamScore name="Team 1" score={teamScores[0]} />
-        <div className="font-display text-muted-foreground text-lg tracking-wider">
-          Q{currentQuestion + 1}/{totalQuestions}
+        <TeamScore name="Team 1" score={teamScores[0]} active={activeTeam === 0} />
+        <div className="flex flex-col items-center">
+          <div className="font-display text-muted-foreground text-lg tracking-wider">
+            Q{currentQuestion + 1}/{totalQuestions}
+          </div>
+          {stealMode && (
+            <div className="font-display text-xs text-destructive uppercase tracking-widest animate-pulse mt-1">
+              Steal Attempt!
+            </div>
+          )}
         </div>
-        <TeamScore name="Team 2" score={teamScores[1]} />
+        <TeamScore name="Team 2" score={teamScores[1]} active={activeTeam === 1} />
       </div>
 
       {/* Question */}
@@ -74,15 +85,26 @@ export default function GameBoard({
   );
 }
 
-function TeamScore({ name, score }: { name: string; score: number }) {
+function TeamScore({ name, score, active }: { name: string; score: number; active: boolean }) {
   return (
-    <div className="bg-card border-2 border-primary/30 rounded-xl px-6 py-3 text-center min-w-[140px]">
+    <div
+      className={`rounded-xl px-6 py-3 text-center min-w-[140px] transition-all duration-300 ${
+        active
+          ? "bg-primary/20 border-2 border-primary shadow-lg shadow-primary/20 scale-105"
+          : "bg-card border-2 border-primary/30"
+      }`}
+    >
       <div className="font-display text-sm text-muted-foreground uppercase tracking-widest">
         {name}
       </div>
       <div className="font-display text-3xl md:text-5xl font-bold text-primary">
         {score}
       </div>
+      {active && (
+        <div className="font-display text-[10px] text-primary uppercase tracking-widest mt-1">
+          Playing
+        </div>
+      )}
     </div>
   );
 }
