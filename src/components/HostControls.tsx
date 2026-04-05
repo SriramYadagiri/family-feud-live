@@ -1,5 +1,6 @@
 import { Question } from "@/data/rounds";
 import { Button } from "@/components/ui/button";
+import { TEAM_NAMES } from "@/hooks/useGameState";
 
 interface HostControlsProps {
   question: Question;
@@ -32,7 +33,7 @@ export default function HostControls({
   activeTeam,
   stealMode,
 }: HostControlsProps) {
-  const activeTeamName = activeTeam === 0 ? "Team 1" : "Team 2";
+  const activeTeamName = TEAM_NAMES[activeTeam];
 
   return (
     <div className="bg-card border-t-2 border-primary/30 p-4 space-y-4">
@@ -46,7 +47,7 @@ export default function HostControls({
           <span className="text-muted-foreground">Playing: </span>
           <span className="text-primary font-bold">{activeTeamName}</span>
           {stealMode && (
-            <span className="text-destructive ml-2 animate-pulse font-bold">(STEAL × 2 PTS)</span>
+            <span className="text-destructive ml-2 animate-pulse font-bold">(STEAL)</span>
           )}
         </div>
         <Button onClick={onSwitchTeam} variant="outline" size="sm" className="font-display text-xs uppercase">
@@ -57,7 +58,7 @@ export default function HostControls({
       {/* Auto-scoring info */}
       <div className="text-xs text-muted-foreground text-center font-display uppercase tracking-wider">
         Points auto-awarded to {activeTeamName}
-        {stealMode ? " (doubled)" : ""}
+        {stealMode ? " — steals original team's round points on correct guess" : ""}
       </div>
 
       {/* Reveal answers */}

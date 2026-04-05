@@ -1,4 +1,7 @@
 import { Question } from "@/data/rounds";
+import { TEAM_NAMES } from "@/hooks/useGameState";
+import teamVamshiImg from "@/assets/team-vamshi.jpg";
+import teamVishniImg from "@/assets/team-vishni.jpg";
 
 interface GameBoardProps {
   question: Question;
@@ -10,6 +13,8 @@ interface GameBoardProps {
   activeTeam: 0 | 1;
   stealMode?: boolean;
 }
+
+const teamImages = [teamVamshiImg, teamVishniImg];
 
 export default function GameBoard({
   question,
@@ -23,9 +28,14 @@ export default function GameBoard({
 }: GameBoardProps) {
   return (
     <div className="flex flex-col items-center gap-6 p-6 min-h-screen">
+      {/* Title */}
+      <h2 className="font-display text-xl md:text-2xl text-primary uppercase tracking-widest">
+        Punugoti's Family Feud
+      </h2>
+
       {/* Scoreboard */}
       <div className="flex w-full max-w-4xl justify-between items-center">
-        <TeamScore name="Team 1" score={teamScores[0]} active={activeTeam === 0} />
+        <TeamScore name={TEAM_NAMES[0]} score={teamScores[0]} active={activeTeam === 0} image={teamImages[0]} />
         <div className="flex flex-col items-center">
           <div className="font-display text-muted-foreground text-lg tracking-wider">
             Q{currentQuestion + 1}/{totalQuestions}
@@ -36,7 +46,7 @@ export default function GameBoard({
             </div>
           )}
         </div>
-        <TeamScore name="Team 2" score={teamScores[1]} active={activeTeam === 1} />
+        <TeamScore name={TEAM_NAMES[1]} score={teamScores[1]} active={activeTeam === 1} image={teamImages[1]} />
       </div>
 
       {/* Question */}
@@ -85,7 +95,7 @@ export default function GameBoard({
   );
 }
 
-function TeamScore({ name, score, active }: { name: string; score: number; active: boolean }) {
+function TeamScore({ name, score, active, image }: { name: string; score: number; active: boolean; image: string }) {
   return (
     <div
       className={`rounded-xl px-6 py-3 text-center min-w-[140px] transition-all duration-300 ${
@@ -94,6 +104,7 @@ function TeamScore({ name, score, active }: { name: string; score: number; activ
           : "bg-card border-2 border-primary/30"
       }`}
     >
+      <img src={image} alt={name} className="w-12 h-12 rounded-full object-cover mx-auto mb-1 border-2 border-primary/40" />
       <div className="font-display text-sm text-muted-foreground uppercase tracking-widest">
         {name}
       </div>
