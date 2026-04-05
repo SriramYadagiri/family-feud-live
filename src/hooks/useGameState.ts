@@ -4,6 +4,8 @@ import { useSoundEffects } from "@/hooks/useSoundEffects";
 
 const allQuestions = rounds.flatMap((r) => r.questions);
 
+export const TEAM_NAMES = ["Team Vamshi", "Team Vishni"] as const;
+
 export interface GameState {
   currentQ: number;
   revealedAnswers: boolean[];
@@ -12,6 +14,12 @@ export interface GameState {
   gameOver: boolean;
   activeTeam: 0 | 1;
   stealMode: boolean;
+  /** Points accumulated by the original team this round (before steal) */
+  roundPointsOriginalTeam: number;
+  /** Which team was the original team this round */
+  originalTeam: 0 | 1;
+  /** Whether the stealing team has guessed at least one answer */
+  stealTeamGuessed: boolean;
   pointsLog: { team: 0 | 1; points: number; question: number }[];
 }
 
@@ -24,6 +32,9 @@ function initialState(): GameState {
     gameOver: false,
     activeTeam: 0,
     stealMode: false,
+    roundPointsOriginalTeam: 0,
+    originalTeam: 0,
+    stealTeamGuessed: false,
     pointsLog: [],
   };
 }
@@ -85,16 +96,38 @@ export function useGameState(role: "host" | "board" | "standalone") {
         const next = { ...prev, revealedAnswers: [...prev.revealedAnswers] };
         next.revealedAnswers[index] = true;
 
-        // Auto-award points to active team (doubled in steal mode)
         const pts = allQuestions[prev.currentQ].answers[index].points;
-        const awardedPts = prev.stealMode ? pts * 2 : pts;
         const scores: [number, number] = [...prev.teamScores];
-        scores[prev.activeTeam] += awardedPts;
+
+        if (prev.stealMode) {
+          // Stealing team guessed correctly
+          if (!prev.stealTeamGuessed) {
+            // First correct guess during steal — steal all original team's round points
+            scores[prev.originalTeam] -= prev.roundPointsOriginalTeam;
+            scores[prev.activeTeam] += prev.roundPointsOriginalTeam;
+            next.stealTeamGuessed = true;
+            next.pointsLog = [
+              ...prev.pointsLog,
+              { team: prev.originalTeam, points: -prev.roundPointsOriginalTeam, question: prev.currentQ },
+              { team: prev.activeTeam, points: prev.roundPointsOriginalTeam, question: prev.currentQ },
+            ];
+          } else {
+            next.pointsLog = [...prev.pointsLog];
+          }
+          // Award the guessed answer's points to stealing team
+          scores[prev.activeTeam] += pts;
+          next.pointsLog.push({ team: prev.activeTeam, points: pts, question: prev.currentQ });
+        } else {
+          // Normal play — award to active team and track round points
+          scores[prev.activeTeam] += pts;
+          next.roundPointsOriginalTeam = prev.roundPointsOriginalTeam + pts;
+          next.pointsLog = [
+            ...prev.pointsLog,
+            { team: prev.activeTeam, points: pts, question: prev.currentQ },
+          ];
+        }
+
         next.teamScores = scores;
-        next.pointsLog = [
-          ...prev.pointsLog,
-          { team: prev.activeTeam, points: awardedPts, question: prev.currentQ },
-        ];
 
         if (role !== "board") playCorrect();
         broadcast(next, "correct");
@@ -108,17 +141,41 @@ export function useGameState(role: "host" | "board" | "standalone") {
     setState((prev) => {
       const q = allQuestions[prev.currentQ];
       const newRevealed = prev.revealedAnswers.map(() => true);
-      // Award unrevealed answers to active team
       const scores: [number, number] = [...prev.teamScores];
       const newLogs = [...prev.pointsLog];
+      let roundPts = prev.roundPointsOriginalTeam;
+      let stealGuessed = prev.stealTeamGuessed;
+
       prev.revealedAnswers.forEach((wasRevealed, i) => {
         if (!wasRevealed) {
-          const pts = prev.stealMode ? q.answers[i].points * 2 : q.answers[i].points;
-          scores[prev.activeTeam] += pts;
-          newLogs.push({ team: prev.activeTeam, points: pts, question: prev.currentQ });
+          const pts = q.answers[i].points;
+          if (prev.stealMode) {
+            if (!stealGuessed) {
+              // First guess during steal — steal original team's points
+              scores[prev.originalTeam] -= roundPts;
+              scores[prev.activeTeam] += roundPts;
+              newLogs.push({ team: prev.originalTeam, points: -roundPts, question: prev.currentQ });
+              newLogs.push({ team: prev.activeTeam, points: roundPts, question: prev.currentQ });
+              stealGuessed = true;
+            }
+            scores[prev.activeTeam] += pts;
+            newLogs.push({ team: prev.activeTeam, points: pts, question: prev.currentQ });
+          } else {
+            scores[prev.activeTeam] += pts;
+            roundPts += pts;
+            newLogs.push({ team: prev.activeTeam, points: pts, question: prev.currentQ });
+          }
         }
       });
-      const next = { ...prev, revealedAnswers: newRevealed, teamScores: scores, pointsLog: newLogs };
+
+      const next = {
+        ...prev,
+        revealedAnswers: newRevealed,
+        teamScores: scores,
+        pointsLog: newLogs,
+        roundPointsOriginalTeam: roundPts,
+        stealTeamGuessed: stealGuessed,
+      };
       broadcast(next);
       return next;
     });
@@ -132,7 +189,6 @@ export function useGameState(role: "host" | "board" | "standalone") {
       if (newStrikes >= 3) {
         if (prev.stealMode) {
           // Steal failed — 3 strikes during steal, question is over
-          // Move to next question automatically
           if (role !== "board") playStrike();
           if (prev.currentQ >= allQuestions.length - 1) {
             const next: GameState = { ...prev, strikes: 0, gameOver: true };
@@ -148,6 +204,9 @@ export function useGameState(role: "host" | "board" | "standalone") {
             revealedAnswers: new Array(allQuestions[nextQ].answers.length).fill(false),
             stealMode: false,
             activeTeam: startingTeam,
+            originalTeam: startingTeam,
+            roundPointsOriginalTeam: 0,
+            stealTeamGuessed: false,
           };
           broadcast(next, "strike");
           return next;
@@ -209,6 +268,9 @@ export function useGameState(role: "host" | "board" | "standalone") {
         strikes: 0,
         stealMode: false,
         activeTeam: startingTeam,
+        originalTeam: startingTeam,
+        roundPointsOriginalTeam: 0,
+        stealTeamGuessed: false,
       };
       broadcast(next);
       return next;

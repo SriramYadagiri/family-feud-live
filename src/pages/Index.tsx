@@ -1,4 +1,4 @@
-import { useGameState } from "@/hooks/useGameState";
+import { useGameState, TEAM_NAMES } from "@/hooks/useGameState";
 import GameBoard from "@/components/GameBoard";
 import HostControls from "@/components/HostControls";
 import { Link } from "react-router-dom";
@@ -8,7 +8,7 @@ export default function Index() {
 
   if (game.gameOver) {
     const isTie = game.teamScores[0] === game.teamScores[1];
-    const winner = game.teamScores[0] > game.teamScores[1] ? "Team 1" : "Team 2";
+    const winner = game.teamScores[0] > game.teamScores[1] ? TEAM_NAMES[0] : TEAM_NAMES[1];
     return (
       <div className="min-h-screen flex flex-col items-center justify-center gap-6 p-6">
         <h1 className="font-display text-5xl md:text-7xl font-bold text-primary uppercase tracking-wider">
@@ -16,11 +16,11 @@ export default function Index() {
         </h1>
         <div className="flex gap-8">
           <div className="text-center">
-            <div className="font-display text-muted-foreground uppercase tracking-widest">Team 1</div>
+            <div className="font-display text-muted-foreground uppercase tracking-widest">{TEAM_NAMES[0]}</div>
             <div className="font-display text-5xl font-bold text-primary">{game.teamScores[0]}</div>
           </div>
           <div className="text-center">
-            <div className="font-display text-muted-foreground uppercase tracking-widest">Team 2</div>
+            <div className="font-display text-muted-foreground uppercase tracking-widest">{TEAM_NAMES[1]}</div>
             <div className="font-display text-5xl font-bold text-primary">{game.teamScores[1]}</div>
           </div>
         </div>

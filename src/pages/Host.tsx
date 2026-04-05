@@ -1,12 +1,12 @@
 import HostControls from "@/components/HostControls";
-import { useGameState } from "@/hooks/useGameState";
+import { useGameState, TEAM_NAMES } from "@/hooks/useGameState";
 
 export default function Host() {
   const game = useGameState("host");
 
   if (game.gameOver) {
     const isTie = game.teamScores[0] === game.teamScores[1];
-    const winner = game.teamScores[0] > game.teamScores[1] ? "Team 1" : "Team 2";
+    const winner = game.teamScores[0] > game.teamScores[1] ? TEAM_NAMES[0] : TEAM_NAMES[1];
     return (
       <div className="min-h-screen flex flex-col items-center justify-center gap-6 p-6">
         <h1 className="font-display text-4xl font-bold text-primary uppercase tracking-wider">
@@ -14,11 +14,11 @@ export default function Host() {
         </h1>
         <div className="flex gap-6">
           <div className="text-center">
-            <div className="font-display text-muted-foreground uppercase tracking-widest text-sm">Team 1</div>
+            <div className="font-display text-muted-foreground uppercase tracking-widest text-sm">{TEAM_NAMES[0]}</div>
             <div className="font-display text-4xl font-bold text-primary">{game.teamScores[0]}</div>
           </div>
           <div className="text-center">
-            <div className="font-display text-muted-foreground uppercase tracking-widest text-sm">Team 2</div>
+            <div className="font-display text-muted-foreground uppercase tracking-widest text-sm">{TEAM_NAMES[1]}</div>
             <div className="font-display text-4xl font-bold text-primary">{game.teamScores[1]}</div>
           </div>
         </div>
@@ -39,7 +39,7 @@ export default function Host() {
     <div className="min-h-screen flex flex-col">
       <div className="bg-card border-b-2 border-primary/30 p-4 text-center">
         <h1 className="font-display text-xl text-primary uppercase tracking-widest">
-          Host Controls
+          Punugoti's Family Feud — Host
         </h1>
         <p className="font-display text-sm text-muted-foreground mt-1">
           Open <span className="text-primary">/board</span> on the TV
