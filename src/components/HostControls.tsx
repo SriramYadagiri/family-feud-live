@@ -10,9 +10,8 @@ interface HostControlsProps {
   onAddStrike: () => void;
   onResetStrikes: () => void;
   onNextQuestion: () => void;
-  onAddScore: (team: 0 | 1, points: number) => void;
+  onUndoLastPoints: () => void;
   onSwitchTeam: () => void;
-  roundPoints: number;
   isLastQuestion: boolean;
   activeTeam: 0 | 1;
   stealMode: boolean;
@@ -27,9 +26,8 @@ export default function HostControls({
   onAddStrike,
   onResetStrikes,
   onNextQuestion,
-  onAddScore,
+  onUndoLastPoints,
   onSwitchTeam,
-  roundPoints,
   isLastQuestion,
   activeTeam,
   stealMode,
@@ -48,12 +46,18 @@ export default function HostControls({
           <span className="text-muted-foreground">Playing: </span>
           <span className="text-primary font-bold">{activeTeamName}</span>
           {stealMode && (
-            <span className="text-destructive ml-2 animate-pulse">(STEAL)</span>
+            <span className="text-destructive ml-2 animate-pulse font-bold">(STEAL × 2 PTS)</span>
           )}
         </div>
         <Button onClick={onSwitchTeam} variant="outline" size="sm" className="font-display text-xs uppercase">
           Switch Team
         </Button>
+      </div>
+
+      {/* Auto-scoring info */}
+      <div className="text-xs text-muted-foreground text-center font-display uppercase tracking-wider">
+        Points auto-awarded to {activeTeamName}
+        {stealMode ? " (doubled)" : ""}
       </div>
 
       {/* Reveal answers */}
@@ -98,30 +102,15 @@ export default function HostControls({
         </Button>
       </div>
 
-      {/* Score awarding */}
-      <div className="space-y-2">
-        <p className="text-sm text-muted-foreground font-display uppercase tracking-wider">
-          Award Round Points ({roundPoints} pts)
-        </p>
-        <div className="grid grid-cols-2 gap-2">
-          <Button
-            onClick={() => onAddScore(0, roundPoints)}
-            className={`font-display uppercase ${
-              activeTeam === 0 ? "bg-success hover:bg-success/90" : "bg-success/50 hover:bg-success/70"
-            }`}
-          >
-            → Team 1
-          </Button>
-          <Button
-            onClick={() => onAddScore(1, roundPoints)}
-            className={`font-display uppercase ${
-              activeTeam === 1 ? "bg-success hover:bg-success/90" : "bg-success/50 hover:bg-success/70"
-            }`}
-          >
-            → Team 2
-          </Button>
-        </div>
-      </div>
+      {/* Undo points */}
+      <Button
+        onClick={onUndoLastPoints}
+        variant="outline"
+        size="sm"
+        className="w-full font-display uppercase tracking-wider text-destructive border-destructive/30"
+      >
+        Undo Last Points
+      </Button>
 
       {/* Navigation */}
       <Button
