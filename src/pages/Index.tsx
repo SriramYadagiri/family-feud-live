@@ -67,9 +67,8 @@ export default function Index() {
         onAddStrike={game.addStrike}
         onResetStrikes={game.resetStrikes}
         onNextQuestion={game.nextQuestion}
-        onAddScore={game.addScore}
+        onUndoLastPoints={game.undoLastPoints}
         onSwitchTeam={game.switchTeam}
-        roundPoints={game.roundPoints}
         isLastQuestion={game.currentQ >= game.allQuestions.length - 1}
         activeTeam={game.activeTeam}
         stealMode={game.stealMode}
