@@ -99,7 +99,6 @@ export default function GameBoard({
           </div>
         </div>
       )}
-      </div>
     </div>
   );
 }
