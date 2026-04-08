@@ -20,7 +20,7 @@ export const rounds: Round[] = [
       {
         question: "Name something a woman changes that a man might not notice.",
         answers: [
-          { text: "Hair", points: 35 },
+          { text: "Hair / Eyebrows", points: 35 },
           { text: "Makeup", points: 25 },
           { text: "Nails", points: 20 },
           { text: "Perfume", points: 15 },
@@ -145,6 +145,66 @@ export const rounds: Round[] = [
           { text: "Wedding party", points: 20 },
           { text: "Bridal shower", points: 15 },
           { text: "Baby shower", points: 5 },
+        ],
+      },
+      {
+        question: "Name something specific your partner did early in your relationship that you wish they still did now",
+        answers: [
+          { text: "Kiss", points: 35 },
+          { text: "Cuddle / Hug", points: 25 },
+          { text: "Buy flowers", points: 20 },
+          { text: "Cook", points: 15 },
+          { text: "Go on dates", points: 5 },
+        ],
+      },
+      {
+        question: "Name something of women might stop maintaining once she’s in a serious relationship",
+        answers: [
+          { text: "Weight", points: 35 },
+          { text: "Dressing up", points: 25 },
+          { text: "Looks / Grooming routines", points: 20 },
+          { text: "Friendships", points: 15 },
+          { text: "House", points: 5 },
+        ],
+      },
+      {
+        question: "According to women: what’s the most important element in a relationship?",
+        answers: [
+          { text: "Emotional connection", points: 35 },
+          { text: "Trust", points: 25 },
+          { text: "Friendship", points: 20 },
+          { text: "Respect / Feeling valued", points: 15 },
+          { text: "Physical attraction", points: 5 },
+        ],
+      },
+      {
+        question: "According to men: what’s the most important element in a relationship?",
+        answers: [
+          { text: "Respect", points: 35 },
+          { text: "Physical attraction / Intimacy", points: 25 },
+          { text: "Trust / Loyalty", points: 20 },
+          { text: "Acceptance", points: 15 },
+          { text: "Emotional connection", points: 5 },
+        ],
+      },
+      {
+        question: "Name a food that is associated with romance",
+        answers: [
+          { text: "Quinoa / A good source of protein ;)", points: 35 },
+          { text: "Strawberries", points: 25 },
+          { text: "Whipped Cream", points: 20 },
+          { text: "Chocolate", points: 15 },
+          { text: "A good drink", points: 5 },
+        ],
+      },
+      {
+        question: "Name something you and your spouse might share on a date",
+        answers: [
+          { text: "Desert", points: 35 },
+          { text: "Meal", points: 25 },
+          { text: "Popcorn", points: 20 },
+          { text: "A kiss", points: 15 },
+          { text: "Stories", points: 5 },
         ],
       }
     ],
