@@ -29,7 +29,21 @@ export default function GameBoard({
   stealMode,
 }: GameBoardProps) {
   return (
-    <div className="flex flex-col items-center gap-6 p-6 min-h-screen">
+    <div className="relative flex flex-col items-center gap-6 p-6 min-h-screen">
+      {/* Player 1 - Left side */}
+      <img
+        src={player1Img}
+        alt="Player 1"
+        className="hidden lg:block absolute left-0 top-1/2 -translate-y-1/2 h-[70vh] w-auto object-contain pointer-events-none"
+      />
+
+      {/* Player 2 - Right side */}
+      <img
+        src={player2Img}
+        alt="Player 2"
+        className="hidden lg:block absolute right-0 top-1/2 -translate-y-1/2 h-[70vh] w-auto object-contain pointer-events-none"
+      />
+
       {/* Title */}
       <h2 className="font-display text-4xl md:text-6xl lg:text-7xl text-primary uppercase tracking-widest">
         Punugoti's Family Feud
@@ -37,10 +51,7 @@ export default function GameBoard({
 
       {/* Scoreboard */}
       <div className="flex w-full max-w-4xl justify-between items-center">
-        <div className="flex items-center gap-3">
-          <img src={player1Img} alt="Player 1" className="hidden lg:block h-32 w-auto object-contain" />
-          <TeamScore name={TEAM_NAMES[0]} score={teamScores[0]} active={activeTeam === 0} image={teamImages[0]} />
-        </div>
+        <TeamScore name={TEAM_NAMES[0]} score={teamScores[0]} active={activeTeam === 0} image={teamImages[0]} />
         <div className="flex flex-col items-center">
           <div className="font-display text-muted-foreground text-lg tracking-wider">
             Q{currentQuestion + 1}/{totalQuestions}
@@ -51,10 +62,7 @@ export default function GameBoard({
             </div>
           )}
         </div>
-        <div className="flex items-center gap-3">
-          <TeamScore name={TEAM_NAMES[1]} score={teamScores[1]} active={activeTeam === 1} image={teamImages[1]} />
-          <img src={player2Img} alt="Player 2" className="hidden lg:block h-32 w-auto object-contain" />
-        </div>
+        <TeamScore name={TEAM_NAMES[1]} score={teamScores[1]} active={activeTeam === 1} image={teamImages[1]} />
       </div>
 
       {/* Question */}
