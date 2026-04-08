@@ -2,6 +2,8 @@ import { Question } from "@/data/rounds";
 import { TEAM_NAMES } from "@/hooks/useGameState";
 import teamVamshiImg from "@/assets/team-vamshi.jpg";
 import teamVishniImg from "@/assets/team-vishni.jpg";
+import player1Img from "@/assets/player-1.png";
+import player2Img from "@/assets/player-2.png";
 
 interface GameBoardProps {
   question: Question;
