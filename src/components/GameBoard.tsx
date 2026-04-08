@@ -29,7 +29,13 @@ export default function GameBoard({
   stealMode,
 }: GameBoardProps) {
   return (
-    <div className="flex flex-col items-center gap-6 p-6 min-h-screen">
+    <div className="flex min-h-screen">
+      {/* Player 1 - Left side */}
+      <div className="hidden lg:flex w-48 flex-shrink-0 items-end justify-center overflow-hidden">
+        <img src={player1Img} alt="Player 1" className="h-[80vh] w-auto object-contain object-bottom" />
+      </div>
+
+      <div className="flex flex-col items-center gap-6 p-6 flex-1 min-w-0">
       {/* Title */}
       <h2 className="font-display text-xl md:text-2xl text-primary uppercase tracking-widest">
         Punugoti's Family Feud
