@@ -29,21 +29,18 @@ export default function GameBoard({
   stealMode,
 }: GameBoardProps) {
   return (
-    <div className="flex min-h-screen">
-      {/* Player 1 - Left side */}
-      <div className="hidden lg:flex w-48 flex-shrink-0 items-end justify-center overflow-hidden">
-        <img src={player1Img} alt="Player 1" className="h-[80vh] w-auto object-contain object-bottom" />
-      </div>
-
-      <div className="flex flex-col items-center gap-6 p-6 flex-1 min-w-0">
+    <div className="flex flex-col items-center gap-6 p-6 min-h-screen">
       {/* Title */}
-      <h2 className="font-display text-xl md:text-2xl text-primary uppercase tracking-widest">
+      <h2 className="font-display text-4xl md:text-6xl lg:text-7xl text-primary uppercase tracking-widest">
         Punugoti's Family Feud
       </h2>
 
       {/* Scoreboard */}
       <div className="flex w-full max-w-4xl justify-between items-center">
-        <TeamScore name={TEAM_NAMES[0]} score={teamScores[0]} active={activeTeam === 0} image={teamImages[0]} />
+        <div className="flex items-center gap-3">
+          <img src={player1Img} alt="Player 1" className="hidden lg:block h-32 w-auto object-contain" />
+          <TeamScore name={TEAM_NAMES[0]} score={teamScores[0]} active={activeTeam === 0} image={teamImages[0]} />
+        </div>
         <div className="flex flex-col items-center">
           <div className="font-display text-muted-foreground text-lg tracking-wider">
             Q{currentQuestion + 1}/{totalQuestions}
@@ -54,7 +51,10 @@ export default function GameBoard({
             </div>
           )}
         </div>
-        <TeamScore name={TEAM_NAMES[1]} score={teamScores[1]} active={activeTeam === 1} image={teamImages[1]} />
+        <div className="flex items-center gap-3">
+          <TeamScore name={TEAM_NAMES[1]} score={teamScores[1]} active={activeTeam === 1} image={teamImages[1]} />
+          <img src={player2Img} alt="Player 2" className="hidden lg:block h-32 w-auto object-contain" />
+        </div>
       </div>
 
       {/* Question */}
