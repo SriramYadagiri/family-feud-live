@@ -99,6 +99,12 @@ export default function GameBoard({
           </div>
         </div>
       )}
+      </div>
+
+      {/* Player 2 - Right side */}
+      <div className="hidden lg:flex w-48 flex-shrink-0 items-end justify-center overflow-hidden">
+        <img src={player2Img} alt="Player 2" className="h-[80vh] w-auto object-contain object-bottom" />
+      </div>
     </div>
   );
 }
