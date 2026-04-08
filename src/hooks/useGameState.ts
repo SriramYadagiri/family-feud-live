@@ -186,47 +186,54 @@ export function useGameState(role: "host" | "board" | "standalone") {
       if (prev.strikes >= 3) return prev;
       const newStrikes = prev.strikes + 1;
 
-      if (newStrikes >= 3) {
-        if (prev.stealMode) {
-          // Steal failed — 3 strikes during steal, question is over
-          if (role !== "board") playStrike();
-          if (prev.currentQ >= allQuestions.length - 1) {
-            const next: GameState = { ...prev, strikes: 0, gameOver: true };
-            broadcast(next, "strike");
-            return next;
-          }
-          const nextQ = prev.currentQ + 1;
-          const startingTeam: 0 | 1 = (nextQ % 2) as 0 | 1;
-          const next: GameState = {
-            ...prev,
-            strikes: 0,
-            currentQ: nextQ,
-            revealedAnswers: new Array(allQuestions[nextQ].answers.length).fill(false),
-            stealMode: false,
-            activeTeam: startingTeam,
-            originalTeam: startingTeam,
-            roundPointsOriginalTeam: 0,
-            stealTeamGuessed: false,
-          };
-          broadcast(next, "strike");
-          return next;
-        }
-
-        // 3 strikes on main team — switch to steal mode, reset strikes
-        const next: GameState = {
-          ...prev,
-          strikes: 0,
-          activeTeam: prev.activeTeam === 0 ? 1 : 0,
-          stealMode: true,
-        };
-        if (role !== "board") playStrike();
-        broadcast(next, "strike");
-        return next;
-      }
-
+      // First, always show the strike (including the 3rd)
       const next = { ...prev, strikes: newStrikes };
       if (role !== "board") playStrike();
       broadcast(next, "strike");
+
+      // If this is the 3rd strike, schedule the transition after a delay
+      if (newStrikes >= 3) {
+        setTimeout(() => {
+          setState((cur) => {
+            if (cur.strikes !== 3) return cur; // already handled
+
+            if (cur.stealMode) {
+              // Steal failed — move to next question
+              if (cur.currentQ >= allQuestions.length - 1) {
+                const s: GameState = { ...cur, strikes: 0, gameOver: true };
+                broadcast(s);
+                return s;
+              }
+              const nextQ = cur.currentQ + 1;
+              const startingTeam: 0 | 1 = (nextQ % 2) as 0 | 1;
+              const s: GameState = {
+                ...cur,
+                strikes: 0,
+                currentQ: nextQ,
+                revealedAnswers: new Array(allQuestions[nextQ].answers.length).fill(false),
+                stealMode: false,
+                activeTeam: startingTeam,
+                originalTeam: startingTeam,
+                roundPointsOriginalTeam: 0,
+                stealTeamGuessed: false,
+              };
+              broadcast(s);
+              return s;
+            }
+
+            // Switch to steal mode
+            const s: GameState = {
+              ...cur,
+              strikes: 0,
+              activeTeam: cur.activeTeam === 0 ? 1 : 0,
+              stealMode: true,
+            };
+            broadcast(s);
+            return s;
+          });
+        }, 1500);
+      }
+
       return next;
     });
   }, [playStrike, broadcast, role]);
