@@ -20,7 +20,7 @@ export const rounds: Round[] = [
       {
         question: "Name something a woman changes that a man might not notice.",
         answers: [
-          { text: "Hair / Eyebrows", points: 35 },
+          { text: "Hair / Eyebrows ;)", points: 35 },
           { text: "Makeup", points: 25 },
           { text: "Nails", points: 20 },
           { text: "Perfume", points: 15 },
