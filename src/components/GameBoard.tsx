@@ -121,7 +121,7 @@ function TeamScore({ name, score, active, image }: { name: string; score: number
       }`}
     >
       <img src={image} alt={name} className="w-12 h-12 rounded-full object-cover mx-auto mb-1 border-2 border-primary/40" />
-      <div className="font-display text-sm text-muted-foreground uppercase tracking-widest">
+      <div className="font-display text-2xl text-foreground uppercase tracking-widest">
         {name}
       </div>
       <div className="font-display text-3xl md:text-5xl font-bold text-primary">
