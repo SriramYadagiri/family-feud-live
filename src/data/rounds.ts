@@ -28,41 +28,31 @@ export const rounds: Round[] = [
         ],
       },
       {
-        question: "Name something a married couple commonly fight about",
-        answers: [
-          { text: "Finances", points: 35 },
-          { text: "Kids", points: 25 },
-          { text: "In-laws", points: 20 },
-          { text: "Chores", points: 15 },
-          { text: "Personal habits", points: 5 },
-        ],
-      },
-      {
         question: "Name an excuse for not having a date night with spouse",
         answers: [
           { text: "Tired", points: 35 },
-          { text: "Kids / no babysitter", points: 25 },
+          { text: "Kids / No babysitter", points: 25 },
           { text: "Busy", points: 20 },
-          { text: "No money", points: 15 },
+          { text: "Date with friends", points: 15 },
           { text: "Lazy", points: 5 },
         ],
       },
       {
         question: "Name an ideal setting for a date night",
         answers: [
-          { text: "Restaurant", points: 35 },
-          { text: "Stay home", points: 25 },
-          { text: "Cafe", points: 20 },
-          { text: "Picnic / park", points: 15 },
-          { text: "Long drive", points: 5 },
+          { text: "Bar", points: 35 },
+          { text: "Concert", points: 25 },
+          { text: "Hike", points: 20 },
+          { text: "Long drive", points: 15 },
+          { text: "Restaurant", points: 5 },
         ],
       },
       {
         question: "Name something a spouse might do to show their love",
         answers: [
           { text: "Hug / kiss", points: 35 },
-          { text: "Buy flowers", points: 25 },
-          { text: "Buy a gift", points: 20 },
+          { text: "Buy a drink", points: 25 },
+          { text: "Buy a gift / flowers", points: 20 },
           { text: "Do chores", points: 15 },
           { text: "Write a love note", points: 5 },
         ],
@@ -75,6 +65,16 @@ export const rounds: Round[] = [
           { text: "Making joint decisions", points: 20 },
           { text: "Sharing", points: 15 },
           { text: "Extra responsibility", points: 5 },
+        ],
+      },
+      {
+        question: "Name something Mr.V and Mrs.V commonly argue about",
+        answers: [
+          { text: "Drive to Lake House", points: 35 },
+          { text: "Go on vacation", points: 25 },
+          { text: "What's for dinner", points: 20 },
+          { text: "Having a drink", points: 15 },
+          { text: "Who loves more", points: 5 },
         ],
       },
       {
@@ -118,16 +118,6 @@ export const rounds: Round[] = [
         ],
       },
       {
-        question: "Name something you might do on a romantic day with your partner",
-        answers: [
-          { text: "Picnic", points: 35 },
-          { text: "Sleep in", points: 25 },
-          { text: "Go on a hike", points: 20 },
-          { text: "Give massages", points: 15 },
-          { text: "Go to the beach", points: 5 },
-        ],
-      },
-      {
         question: "Name a feature that most attracted you to your spouse",
         answers: [
           { text: "Eyes", points: 35 },
@@ -155,16 +145,6 @@ export const rounds: Round[] = [
           { text: "Buy flowers", points: 20 },
           { text: "Cook", points: 15 },
           { text: "Go on dates", points: 5 },
-        ],
-      },
-      {
-        question: "Name something of women might stop maintaining once she’s in a serious relationship",
-        answers: [
-          { text: "Weight", points: 35 },
-          { text: "Dressing up", points: 25 },
-          { text: "Looks / Grooming routines", points: 20 },
-          { text: "Friendships", points: 15 },
-          { text: "House", points: 5 },
         ],
       },
       {
@@ -200,13 +180,23 @@ export const rounds: Round[] = [
       {
         question: "Name something you and your spouse might share on a date",
         answers: [
-          { text: "Desert", points: 35 },
-          { text: "Meal", points: 25 },
-          { text: "Popcorn", points: 20 },
-          { text: "A kiss", points: 15 },
-          { text: "Stories", points: 5 },
+          { text: "Drink", points: 35 },
+          { text: "Kiss", points: 25 },
+          { text: "Netflix", points: 20 },
+          { text: "Desert", points: 15 },
+          { text: "Live Music", points: 5 },
         ],
-      }
+      },
+      {
+        question: "Name something you might do on a romantic day with your partner",
+        answers: [
+          { text: "Picnic", points: 35 },
+          { text: "Home Improvement Projects", points: 25 },
+          { text: "Go on a hike", points: 20 },
+          { text: "Give massages", points: 15 },
+          { text: "Go to the beach", points: 5 },
+        ],
+      },
     ],
   },
 ];

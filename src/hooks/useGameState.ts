@@ -4,7 +4,7 @@ import { useSoundEffects } from "@/hooks/useSoundEffects";
 
 const allQuestions = rounds.flatMap((r) => r.questions);
 
-export const TEAM_NAMES = ["Team Vamshi", "Team Vishni"] as const;
+export const TEAM_NAMES = ["Mr. V", "Mrs. V"] as const;
 
 export interface GameState {
   currentQ: number;
