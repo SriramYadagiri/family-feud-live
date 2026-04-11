@@ -11,44 +11,45 @@ interface PlayerRevealOverlayProps {
   onComplete: () => void;
 }
 
-function playBoomSound() {
+function playApplause() {
   const ctx = new AudioContext();
-  // Low boom
-  const osc = ctx.createOscillator();
+  const duration = 3;
+  const sampleRate = ctx.sampleRate;
+  const length = sampleRate * duration;
+  const buffer = ctx.createBuffer(2, length, sampleRate);
+
+  for (let ch = 0; ch < 2; ch++) {
+    const data = buffer.getChannelData(ch);
+    for (let i = 0; i < length; i++) {
+      const t = i / sampleRate;
+      // Layered filtered noise to simulate clapping crowd
+      const noise = (Math.random() * 2 - 1);
+      // Envelope: fade in quickly, sustain, fade out
+      const envelope =
+        t < 0.2 ? t / 0.2 :
+        t < 2.2 ? 1.0 :
+        1.0 - (t - 2.2) / 0.8;
+      // Add rhythmic "clap" pulses
+      const clapRate = 6 + Math.sin(t * 0.5) * 2;
+      const clapPulse = 0.6 + 0.4 * Math.abs(Math.sin(t * clapRate * Math.PI));
+      data[i] = noise * envelope * clapPulse * 0.3;
+    }
+  }
+
+  const source = ctx.createBufferSource();
+  source.buffer = buffer;
+
+  // Bandpass filter to make it sound more like clapping
+  const filter = ctx.createBiquadFilter();
+  filter.type = "bandpass";
+  filter.frequency.value = 2000;
+  filter.Q.value = 0.5;
+
   const gain = ctx.createGain();
-  osc.type = "sine";
-  osc.frequency.setValueAtTime(80, ctx.currentTime);
-  osc.frequency.exponentialRampToValueAtTime(30, ctx.currentTime + 0.5);
-  gain.gain.setValueAtTime(0.6, ctx.currentTime);
-  gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.6);
-  osc.connect(gain).connect(ctx.destination);
-  osc.start();
-  osc.stop(ctx.currentTime + 0.6);
+  gain.gain.value = 0.8;
 
-  // Rising whoosh
-  const osc2 = ctx.createOscillator();
-  const gain2 = ctx.createGain();
-  osc2.type = "sawtooth";
-  osc2.frequency.setValueAtTime(100, ctx.currentTime);
-  osc2.frequency.exponentialRampToValueAtTime(600, ctx.currentTime + 0.4);
-  gain2.gain.setValueAtTime(0.15, ctx.currentTime);
-  gain2.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.5);
-  osc2.connect(gain2).connect(ctx.destination);
-  osc2.start();
-  osc2.stop(ctx.currentTime + 0.5);
-
-  // Impact hit
-  setTimeout(() => {
-    const noise = ctx.createOscillator();
-    const ng = ctx.createGain();
-    noise.type = "square";
-    noise.frequency.value = 40;
-    ng.gain.setValueAtTime(0.5, ctx.currentTime);
-    ng.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.3);
-    noise.connect(ng).connect(ctx.destination);
-    noise.start();
-    noise.stop(ctx.currentTime + 0.3);
-  }, 300);
+  source.connect(filter).connect(gain).connect(ctx.destination);
+  source.start();
 }
 
 function fireConfetti() {
@@ -97,7 +98,7 @@ export default function PlayerRevealOverlay({ revealPlayer, onComplete }: Player
 
     // Start the reveal
     setPhase("growing");
-    playBoomSound();
+    playApplause();
 
     // After grow animation, show full + confetti
     timerRef.current = window.setTimeout(() => {
