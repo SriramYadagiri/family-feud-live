@@ -98,7 +98,7 @@ export default function PlayerRevealOverlay({ revealPlayer, onComplete }: Player
 
     // Start the reveal
     setPhase("growing");
-    playBoomSound();
+    playApplause();
 
     // After grow animation, show full + confetti
     timerRef.current = window.setTimeout(() => {
