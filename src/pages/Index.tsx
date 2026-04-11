@@ -1,6 +1,7 @@
 import { useGameState, TEAM_NAMES } from "@/hooks/useGameState";
 import GameBoard from "@/components/GameBoard";
 import HostControls from "@/components/HostControls";
+import PlayerRevealOverlay from "@/components/PlayerRevealOverlay";
 import { Link } from "react-router-dom";
 
 export default function Index() {
@@ -39,6 +40,7 @@ export default function Index() {
 
   return (
     <div className="min-h-screen flex flex-col">
+      <PlayerRevealOverlay revealPlayer={game.revealPlayer} onComplete={game.clearReveal} />
       <div className="bg-card/50 border-b border-primary/20 px-4 py-2 text-center">
         <p className="font-display text-xs text-muted-foreground uppercase tracking-wider">
           💡 For live games: open{" "}
