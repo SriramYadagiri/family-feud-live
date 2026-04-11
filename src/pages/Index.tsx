@@ -69,6 +69,7 @@ export default function Index() {
         onNextQuestion={game.nextQuestion}
         onUndoLastPoints={game.undoLastPoints}
         onSwitchTeam={game.switchTeam}
+        onRevealPlayer={game.revealPlayerAction}
         isLastQuestion={game.currentQ >= game.allQuestions.length - 1}
         activeTeam={game.activeTeam}
         stealMode={game.stealMode}
