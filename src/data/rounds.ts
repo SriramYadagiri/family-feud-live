@@ -18,26 +18,6 @@ export const rounds: Round[] = [
     round: 1,
     questions: [
       {
-        question: "Name something a woman changes that a man might not notice.",
-        answers: [
-          { text: "Hair / Eyebrows ;)", points: 35 },
-          { text: "Makeup", points: 25 },
-          { text: "Nails", points: 20 },
-          { text: "Perfume", points: 15 },
-          { text: "Clothes", points: 5 },
-        ],
-      },
-      {
-        question: "Name an excuse for not having a date night with spouse",
-        answers: [
-          { text: "Tired", points: 35 },
-          { text: "Kids / No babysitter", points: 25 },
-          { text: "Busy", points: 20 },
-          { text: "Date with friends", points: 15 },
-          { text: "Lazy", points: 5 },
-        ],
-      },
-      {
         question: "Name an ideal setting for a date night",
         answers: [
           { text: "Bar", points: 35 },
@@ -45,6 +25,96 @@ export const rounds: Round[] = [
           { text: "Hike", points: 20 },
           { text: "Long drive", points: 15 },
           { text: "Restaurant", points: 5 },
+        ],
+      },
+      {
+        question: "Name something a spouse might avoid doing around their partner",
+        answers: [
+          { text: "Farting / passing gas", points: 35 },
+          { text: "Using the bathroom", points: 25 },
+          { text: "Picking their nose", points: 20 },
+          { text: "Burping", points: 15 },
+          { text: "Shopping online", points: 5 },
+        ],
+      },
+      {
+        question: "Name a food that is associated with romance",
+        answers: [
+          { text: "Quinoa / A good source of protein ;)", points: 35 },
+          { text: "Strawberries", points: 25 },
+          { text: "Whipped Cream", points: 20 },
+          { text: "Chocolate", points: 15 },
+          { text: "A good drink", points: 5 },
+        ],
+      },
+      {
+        question: "Name something you might do on a romantic day with your partner",
+        answers: [
+          { text: "Picnic", points: 35 },
+          { text: "Home Improvement Projects", points: 25 },
+          { text: "Go on a hike", points: 20 },
+          { text: "Give massages", points: 15 },
+          { text: "Go to the beach", points: 5 },
+        ],
+      },
+      {
+        question: "Name something Mr.V and Mrs.V commonly argue about",
+        answers: [
+          { text: "Drive to Lake House", points: 35 },
+          { text: "Go on vacation", points: 25 },
+          { text: "What's for dinner", points: 20 },
+          { text: "Having a drink", points: 15 },
+          { text: "Who loves more", points: 5 },
+        ],
+      },
+      {
+        question: "Name something that an Indian couple probably did at their wedding 25 years ago",
+        answers: [
+          { text: "Tying Mangalsutra", points: 35 },
+          { text: "Exchange Garlands", points: 25 },
+          { text: "Jilakara and Bellam", points: 20 },
+          { text: "Take Pictures", points: 15 },
+          { text: "Take Blessings", points: 5 },
+        ],
+      },
+      {
+        question: "Name an excuse for not having a date night with spouse",
+        answers: [
+          { text: "Date with friends", points: 35 },
+          { text: "Kids / No babysitter", points: 25 },
+          { text: "Busy", points: 20 },
+          { text: "Tired", points: 15 },
+          { text: "Lazy", points: 5 },
+        ],
+      },
+      {
+        question: "The key to a successful marriage is ___ing together",
+        answers: [
+          { text: "laugh / love", points: 35 },
+          { text: "work", points: 25 },
+          { text: "hike", points: 20 },
+          { text: "cook", points: 15 },
+          { text: "fight", points: 5 },
+        ],
+      },
+      {
+        question: "Name a popular US tourist destination an Indian couple would've visited on their honeymoon 25 years ago",
+        answers: [
+          { text: "Niagara Falls", points: 35 },
+          { text: "Statue of Liberty", points: 25 },
+          { text: "Pittsburgh Temple", points: 20 },
+          { text: "Grand Canyon", points: 15 },
+          { text: "Las Vegas", points: 5 },
+        ],
+      },
+      {
+        question: "Name something a woman changes that a man might not notice.",
+        answers: [
+          { text: "Hair / Eyebrows ;)", points: 35 },
+          { text: "Makeup", points: 25 },
+          { text: "Nails", points: 20 },
+          { text: "Perfume", points: 15 },
+          { text: "Clothes", points: 5 },
         ],
       },
       {
@@ -68,26 +138,6 @@ export const rounds: Round[] = [
         ],
       },
       {
-        question: "Name something Mr.V and Mrs.V commonly argue about",
-        answers: [
-          { text: "Drive to Lake House", points: 35 },
-          { text: "Go on vacation", points: 25 },
-          { text: "What's for dinner", points: 20 },
-          { text: "Having a drink", points: 15 },
-          { text: "Who loves more", points: 5 },
-        ],
-      },
-      {
-        question: "Name something a spouse might avoid doing around their partner",
-        answers: [
-          { text: "Farting / passing gas", points: 35 },
-          { text: "Using the bathroom", points: 25 },
-          { text: "Picking their nose", points: 20 },
-          { text: "Burping", points: 15 },
-          { text: "Shopping online", points: 5 },
-        ],
-      },
-      {
         question: "Name something a wife might tell her husband he needs to change",
         answers: [
           { text: "Attitude", points: 35 },
@@ -100,7 +150,7 @@ export const rounds: Round[] = [
       {
         question: "Name something couples stop doing after they are married",
         answers: [
-          { text: "Dating", points: 35 },
+          { text: "Go on dates", points: 35 },
           { text: "Flirting", points: 25 },
           { text: "Taking care of their looks", points: 20 },
           { text: "Talking", points: 15 },
@@ -168,16 +218,6 @@ export const rounds: Round[] = [
         ],
       },
       {
-        question: "Name a food that is associated with romance",
-        answers: [
-          { text: "Quinoa / A good source of protein ;)", points: 35 },
-          { text: "Strawberries", points: 25 },
-          { text: "Whipped Cream", points: 20 },
-          { text: "Chocolate", points: 15 },
-          { text: "A good drink", points: 5 },
-        ],
-      },
-      {
         question: "Name something you and your spouse might share on a date",
         answers: [
           { text: "Drink", points: 35 },
@@ -185,16 +225,6 @@ export const rounds: Round[] = [
           { text: "Netflix", points: 20 },
           { text: "Desert", points: 15 },
           { text: "Live Music", points: 5 },
-        ],
-      },
-      {
-        question: "Name something you might do on a romantic day with your partner",
-        answers: [
-          { text: "Picnic", points: 35 },
-          { text: "Home Improvement Projects", points: 25 },
-          { text: "Go on a hike", points: 20 },
-          { text: "Give massages", points: 15 },
-          { text: "Go to the beach", points: 5 },
         ],
       },
     ],
