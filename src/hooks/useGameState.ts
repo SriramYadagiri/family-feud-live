@@ -310,7 +310,9 @@ export function useGameState(role: "host" | "board" | "standalone") {
   const revealPlayerAction = useCallback(
     (team: 0 | 1) => {
       setState((prev) => {
-        const next = { ...prev, revealPlayer: team };
+        const newRevealed: [boolean, boolean] = [...prev.revealedPlayers];
+        newRevealed[team] = true;
+        const next = { ...prev, revealPlayer: team, revealedPlayers: newRevealed };
         broadcast(next);
         return next;
       });
