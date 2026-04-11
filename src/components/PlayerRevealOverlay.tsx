@@ -4,6 +4,9 @@ import player1Img from "@/assets/player-1.png";
 import player2Img from "@/assets/player-2.png";
 import { TEAM_NAMES } from "@/hooks/useGameState";
 
+const player1Audio = new Audio("@/assets/player-1-intro.mp3");
+const player2Audio = new Audio("@/assets/player-2-intro.mp3");
+
 const playerImages = [player1Img, player2Img];
 
 interface PlayerRevealOverlayProps {
@@ -11,45 +14,19 @@ interface PlayerRevealOverlayProps {
   onComplete: () => void;
 }
 
-function playApplause() {
-  const ctx = new AudioContext();
-  const duration = 3;
-  const sampleRate = ctx.sampleRate;
-  const length = sampleRate * duration;
-  const buffer = ctx.createBuffer(2, length, sampleRate);
+function playSoundBite(player: 0 | 1) {
+  const audio = player === 0 ? player1Audio : player2Audio;
+  // restart from beginning every time
+  audio.currentTime = 0;
 
-  for (let ch = 0; ch < 2; ch++) {
-    const data = buffer.getChannelData(ch);
-    for (let i = 0; i < length; i++) {
-      const t = i / sampleRate;
-      // Layered filtered noise to simulate clapping crowd
-      const noise = (Math.random() * 2 - 1);
-      // Envelope: fade in quickly, sustain, fade out
-      const envelope =
-        t < 0.2 ? t / 0.2 :
-        t < 2.2 ? 1.0 :
-        1.0 - (t - 2.2) / 0.8;
-      // Add rhythmic "clap" pulses
-      const clapRate = 6 + Math.sin(t * 0.5) * 2;
-      const clapPulse = 0.6 + 0.4 * Math.abs(Math.sin(t * clapRate * Math.PI));
-      data[i] = noise * envelope * clapPulse * 0.3;
-    }
-  }
+  // play audio
+  audio.play().catch((e) => console.log("Audio play failed:", e));
 
-  const source = ctx.createBufferSource();
-  source.buffer = buffer;
-
-  // Bandpass filter to make it sound more like clapping
-  const filter = ctx.createBiquadFilter();
-  filter.type = "bandpass";
-  filter.frequency.value = 2000;
-  filter.Q.value = 0.5;
-
-  const gain = ctx.createGain();
-  gain.gain.value = 0.8;
-
-  source.connect(filter).connect(gain).connect(ctx.destination);
-  source.start();
+  // stop after 5 seconds
+  setTimeout(() => {
+    audio.pause();
+    audio.currentTime = 0;
+  }, 5000);
 }
 
 function fireConfetti() {
@@ -98,7 +75,7 @@ export default function PlayerRevealOverlay({ revealPlayer, onComplete }: Player
 
     // Start the reveal
     setPhase("growing");
-    playApplause();
+    playSoundBite(revealPlayer);
 
     // After grow animation, show full + confetti
     timerRef.current = window.setTimeout(() => {
