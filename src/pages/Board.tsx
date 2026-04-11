@@ -1,4 +1,5 @@
 import GameBoard from "@/components/GameBoard";
+import PlayerRevealOverlay from "@/components/PlayerRevealOverlay";
 import { useGameState, TEAM_NAMES } from "@/hooks/useGameState";
 
 export default function Board() {
@@ -31,6 +32,7 @@ export default function Board() {
 
   return (
     <div className="min-h-screen">
+      <PlayerRevealOverlay revealPlayer={game.revealPlayer} onComplete={game.clearReveal} />
       <GameBoard
         question={game.question}
         revealedAnswers={game.revealedAnswers}

@@ -13,6 +13,7 @@ interface HostControlsProps {
   onNextQuestion: () => void;
   onUndoLastPoints: () => void;
   onSwitchTeam: () => void;
+  onRevealPlayer: (team: 0 | 1) => void;
   isLastQuestion: boolean;
   activeTeam: 0 | 1;
   stealMode: boolean;
@@ -29,6 +30,7 @@ export default function HostControls({
   onNextQuestion,
   onUndoLastPoints,
   onSwitchTeam,
+  onRevealPlayer,
   isLastQuestion,
   activeTeam,
   stealMode,
@@ -112,6 +114,24 @@ export default function HostControls({
       >
         Undo Last Points
       </Button>
+
+      {/* Player Reveals */}
+      <div className="flex gap-2">
+        <Button
+          onClick={() => onRevealPlayer(0)}
+          variant="outline"
+          className="flex-1 font-display uppercase tracking-wider border-primary/50 text-primary"
+        >
+          🎭 Reveal {TEAM_NAMES[0]}
+        </Button>
+        <Button
+          onClick={() => onRevealPlayer(1)}
+          variant="outline"
+          className="flex-1 font-display uppercase tracking-wider border-primary/50 text-primary"
+        >
+          🎭 Reveal {TEAM_NAMES[1]}
+        </Button>
+      </div>
 
       {/* Navigation */}
       <Button
