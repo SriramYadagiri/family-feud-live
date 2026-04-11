@@ -58,6 +58,7 @@ export default function Index() {
           totalQuestions={game.allQuestions.length}
           activeTeam={game.activeTeam}
           stealMode={game.stealMode}
+          revealedPlayers={game.revealedPlayers}
         />
       </div>
       <HostControls
