@@ -2,12 +2,13 @@ import { useEffect, useState, useRef } from "react";
 import confetti from "canvas-confetti";
 import player1Img from "@/assets/player-1.png";
 import player2Img from "@/assets/player-2.png";
+import player1Sound from "@/assets/player-1-intro.mp3";
+import player2Sound from "@/assets/player-2-intro.mp3";
 import { TEAM_NAMES } from "@/hooks/useGameState";
 
-const player1Audio = new Audio("@/assets/player-1-intro.mp3");
-const player2Audio = new Audio("@/assets/player-2-intro.mp3");
-
 const playerImages = [player1Img, player2Img];
+const player1Audio = new Audio(player1Sound);
+const player2Audio = new Audio(player2Sound);
 
 interface PlayerRevealOverlayProps {
   revealPlayer: 0 | 1 | null;
