@@ -14,6 +14,7 @@ interface GameBoardProps {
   totalQuestions: number;
   activeTeam: 0 | 1;
   stealMode?: boolean;
+  revealedPlayers: [boolean, boolean];
 }
 
 const teamImages = [teamVamshiImg, teamVishniImg];
@@ -27,6 +28,7 @@ export default function GameBoard({
   totalQuestions,
   activeTeam,
   stealMode,
+  revealedPlayers,
 }: GameBoardProps) {
   return (
     <div className="relative flex flex-col items-center gap-6 p-6 min-h-screen">
@@ -34,14 +36,18 @@ export default function GameBoard({
       <img
         src={player1Img}
         alt="Player 1"
-        className="hidden lg:block absolute left-0 top-1/2 -translate-y-1/2 h-[70vh] w-auto object-contain pointer-events-none"
+        className={`hidden lg:block absolute left-0 top-1/2 -translate-y-1/2 h-[70vh] w-auto object-contain pointer-events-none transition-transform duration-1000 ease-out ${
+          revealedPlayers[0] ? "translate-x-0" : "-translate-x-full"
+        }`}
+        style={{ transform: `translateY(-50%) ${revealedPlayers[0] ? "translateX(0)" : "translateX(-100%)"}` }}
       />
 
       {/* Player 2 - Right side */}
       <img
         src={player2Img}
         alt="Player 2"
-        className="hidden lg:block absolute right-0 top-1/2 -translate-y-1/2 h-[70vh] w-auto object-contain pointer-events-none"
+        className={`hidden lg:block absolute right-0 top-1/2 -translate-y-1/2 h-[70vh] w-auto object-contain pointer-events-none transition-transform duration-1000 ease-out`}
+        style={{ transform: `translateY(-50%) ${revealedPlayers[1] ? "translateX(0)" : "translateX(100%)"}` }}
       />
 
       {/* Title */}
