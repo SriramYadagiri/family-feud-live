@@ -305,6 +305,25 @@ export function useGameState(role: "host" | "board" | "standalone") {
     broadcast(s);
   }, [broadcast]);
 
+  const revealPlayerAction = useCallback(
+    (team: 0 | 1) => {
+      setState((prev) => {
+        const next = { ...prev, revealPlayer: team };
+        broadcast(next);
+        return next;
+      });
+    },
+    [broadcast]
+  );
+
+  const clearReveal = useCallback(() => {
+    setState((prev) => {
+      const next = { ...prev, revealPlayer: null };
+      broadcast(next);
+      return next;
+    });
+  }, [broadcast]);
+
   const roundPoints = question.answers.reduce(
     (sum, a, i) => (state.revealedAnswers[i] ? sum + a.points : sum),
     0
@@ -323,5 +342,7 @@ export function useGameState(role: "host" | "board" | "standalone") {
     nextQuestion,
     undoLastPoints,
     resetGame,
+    revealPlayerAction,
+    clearReveal,
   };
 }
