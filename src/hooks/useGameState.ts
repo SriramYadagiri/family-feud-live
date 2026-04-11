@@ -14,13 +14,11 @@ export interface GameState {
   gameOver: boolean;
   activeTeam: 0 | 1;
   stealMode: boolean;
-  /** Points accumulated by the original team this round (before steal) */
   roundPointsOriginalTeam: number;
-  /** Which team was the original team this round */
   originalTeam: 0 | 1;
-  /** Whether the stealing team has guessed at least one answer */
   stealTeamGuessed: boolean;
   pointsLog: { team: 0 | 1; points: number; question: number }[];
+  revealPlayer: 0 | 1 | null;
 }
 
 function initialState(): GameState {
@@ -36,6 +34,7 @@ function initialState(): GameState {
     originalTeam: 0,
     stealTeamGuessed: false,
     pointsLog: [],
+    revealPlayer: null,
   };
 }
 
